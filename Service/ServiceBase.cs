@@ -48,7 +48,7 @@ namespace Service
             this.Emitter = Connection.Establish("192.168.56.102", null);
 
 
-            /*Console.WriteLine("[" + Name + "] Creating HttpListener...");
+            Console.WriteLine("[" + Name + "] Creating HttpListener...");
             this.Http = new HttpListener();
             this.Http.Prefixes.Add("http://*:80/");
             this.Http.AuthenticationSchemes = AuthenticationSchemes.Anonymous;
@@ -69,7 +69,7 @@ namespace Service
                         finally { ctx.Response.OutputStream.Close(); }
                     }, this.Http.GetContext());
                 }
-            });*/
+            });
 
             // Run in the same thread context
             Console.WriteLine("[" + Name + "] Running...");
