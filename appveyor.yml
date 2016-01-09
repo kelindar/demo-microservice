@@ -1,0 +1,32 @@
+branches:
+  only:
+    - master
+
+configuration: Release
+deploy:
+  - provider: Environment
+    name: Public S3
+    artifact: emitter-service
+    on:
+    branch: master
+version: '{build}'
+
+before_build:
+  - cmd: nuget restore Microservices.sln
+  
+artifacts:
+  - path: Service.Avatar
+    name: demo-service-avatar
+  - path: Service.Users
+    name: demo-service-users
+  - path: Service.Sentiment
+    name: demo-service-sentiment
+    
+build:
+  project: Microservices.sln
+  publish_nuget: false
+  publish_nuget_symbols: false
+  
+nuget:
+  account_feed: true
+  project_feed: true
