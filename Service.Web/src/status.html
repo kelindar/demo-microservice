@@ -1,0 +1,74 @@
+<html>
+<head>
+    <script src="js/emitter.min.js" type="application/javascript"></script>
+    <style>
+        pre {outline: 1px dashed #ccc; padding: 5px; margin: 5px; }
+        .string { color: #d35400; }
+        .number { color: #8e44ad; }
+        .boolean { color: #27ae60; }
+        .null { color: #c0392b; }
+        .key { color: #2980b9; }
+    </style>
+</head>
+<body>
+    <h3>Emitter Cluster</h3>
+
+    <div id="info">
+        
+    </div>
+<script>
+   
+    var key = "50vgRiFKQC4jjg1LAlZ67xoUTpmUvoMy";
+    var channel = "cluster";
+    emitter = new Emitter("192.168.56.102", 8080);
+    emitter.on('connect', function(){
+        emitter.subscribe({
+            key: key,
+            channel: "cluster"
+        });
+    });
+
+    emitter.on('message', function(msg){
+       var parsed = msg.asObject();
+       set(parsed.node, JSON.stringify(msg.asObject(), undefined, 2));
+       
+    });
+    
+    emitter.connect();
+
+    function set(element, value) {
+        var elem = document.getElementById(element);
+        if (elem == null) {
+            elem = document.createElement("pre");
+            elem.id = element;
+            document.getElementById("info").appendChild(elem);
+        }
+        elem.innerHTML = syntaxHighlight(value);
+    };
+
+
+    function syntaxHighlight(json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
+        }
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+</script>
+
+</body>
+</html>

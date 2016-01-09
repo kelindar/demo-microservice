@@ -1,0 +1,24 @@
+           _ _   _           
+ ___ _____|_| |_| |_ ___ ___ 
+| -_|     | |  _|  _| -_|  _|
+|___|_|_|_|_|_| |_| |___|_|  
+
+License Information
+ * License Key: cRn-hFMNP4aHrWEsqv6E7Kay45CEAfkX-G4hUQPttMpd5KFMQYcjTEvdzcwT0ocYUy8sknfohl-D1DqgKBomTA
+ * Secret Key:  jSWTTnIfdH0BJ0zSGPGGIZkucwAQEMp4
+ * Expires:     01 June 2016
+
+----------------------------------------------------
+Docker: https://hub.docker.com/r/emitter/service/
+
+Single-Server: 
+docker run -d -p 8080:8080 -e EMITTER_LICENSE=cRn-hFMNP4aHrWEsqv6E7Kay45CEAfkX-G4hUQPttMpd5KFMQYcjTEvdzcwT0ocYUy8sknfohl-D1DqgKBomTA emitter/service
+
+Clustered: 
+docker run -d -p 8080:8080 -p 4000:4000 -e EMITTER_LICENSE=cRn-hFMNP4aHrWEsqv6E7Kay45CEAfkX-G4hUQPttMpd5KFMQYcjTEvdzcwT0ocYUy8sknfohl-D1DqgKBomTA -e EMITTER_CLUSTER_SEED=<seed> -e EMITTER_CLUSTER_KEY=<name> emitter/service
+
+Information
+ * License Key:  This is your license file, provided by emitter.io team for your on-premise setup. It provides encryption information for your server.
+ * Cluster Key:  This key is shared between the members of the cluster and is used to authenticate new members. Defaults to emitter-io.
+ * Secret Key:   This is your secret key, it allows you to generate per-channel keys. Navigate to http://SERVER:8080/keygen page to generate keys using a UI or use 'keygen' API method.
+ * Cluster Seed: This is a seed endpoint in IP:Port format. This should point to a member of the cluster or contain the domain name to be resolved (eg: my-domain.com:4000).
