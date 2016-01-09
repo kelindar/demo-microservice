@@ -1,0 +1,45 @@
+sentiment:
+  scale: 1
+  health_check:
+    port: 80
+    interval: 2000
+    unhealthy_threshold: 3
+    request_line: GET /health HTTP/1.0
+    healthy_threshold: 2
+    response_timeout: 2000
+users:
+  scale: 1
+  health_check:
+    port: 80
+    interval: 2000
+    unhealthy_threshold: 3
+    request_line: GET /health HTTP/1.0
+    healthy_threshold: 2
+    response_timeout: 2000
+web:
+  scale: 1
+lb:
+  load_balancer_config:
+    haproxy_config: {}
+  health_check:
+    port: 42
+    interval: 2000
+    unhealthy_threshold: 3
+    healthy_threshold: 2
+    response_timeout: 2000
+avatar:
+  scale: 1
+  health_check:
+    port: 80
+    interval: 2000
+    unhealthy_threshold: 3
+    request_line: GET /health HTTP/1.0
+    healthy_threshold: 2
+    response_timeout: 2000
+emitter:
+  health_check:
+    port: 8080
+    interval: 2000
+    unhealthy_threshold: 3
+    healthy_threshold: 2
+    response_timeout: 2000

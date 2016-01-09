@@ -1,0 +1,76 @@
+sentiment:
+  environment:
+    APP_BUCKET: app.misakai.com
+    APP_FILE: public/demo-service-sentiment.zip
+    APP_ENTRY: bin/Release/Service.Sentiment.exe
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: misakai/service:4.2.1
+  links:
+  - 'emitter:'
+  stdin_open: true
+users:
+  environment:
+    APP_BUCKET: app.misakai.com
+    APP_FILE: public/demo-service-users.zip
+    APP_ENTRY: bin/Release/Service.Users.exe
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: misakai/service:4.2.1
+  links:
+  - avatar:avatar
+  - emitter:emitter
+  stdin_open: true
+web:
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: kelindar/gobbledygook
+  links:
+  - sentiment:sentiment
+  - users:users
+  - emitter:emitter
+  stdin_open: true
+lb:
+  ports:
+  - 80:80
+  labels:
+    io.rancher.scheduler.global: 'true'
+  tty: true
+  image: rancher/load-balancer-service
+  links:
+  - web:web
+  stdin_open: true
+avatar:
+  environment:
+    APP_BUCKET: app.misakai.com
+    APP_FILE: public/demo-service-avatar.zip
+    APP_ENTRY: bin/Release/Service.Avatar.exe
+  labels:
+    io.rancher.container.pull_image: always
+  tty: true
+  image: misakai/service:4.2.1
+  links:
+  - emitter:emitter
+  stdin_open: true
+emitter:
+  ports:
+  - 8080:8080/tcp
+  - 4000:4000/tcp
+  environment:
+    EMITTER_LICENSE: cRn-hFMNP4aHrWEsqv6E7Kay45CEAfkX-G4hUQPttMpd5KFMQYcjTEvdzcwT0ocYUy8sknfohl-D1DqgKBomTA
+    EMITTER_CLUSTER_SEED: 10.42.1.1:4000
+    EMITTER_CLUSTER_KEY: emitter-is-awesome
+    MONO_USE_GC: boehm
+  labels:
+    io.rancher.scheduler.global: 'true'
+    io.rancher.container.pull_image: always
+    io.rancher.container.requested_ip: 10.42.1.1
+    io.rancher.scheduler.affinity:host_label: type=vbox
+    io.rancher.container.hostname_override: container_name
+  tty: true
+  image: emitter/service
+  privileged: true
+  stdin_open: true
