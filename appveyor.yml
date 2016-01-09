@@ -8,7 +8,7 @@ deploy:
     name: Public S3
     artifact: emitter-service
     on:
-    branch: master
+      branch: master
 version: '{build}'
 
 before_build:
