@@ -1,5 +1,3 @@
-
-emitter = new Emitter("192.168.56.102", 8080);
 var app = new Vue({
     el: '#wrapper',
     data: {
@@ -28,7 +26,7 @@ var app = new Vue({
     }
 })
 
-//emitter = new Emitter("127.0.0.1", 8080);
+emitter = new Emitter("192.168.56.102", 8080);
 emitter.on('connect', function(){
     
     console.log(getPersistentVisitorId());
